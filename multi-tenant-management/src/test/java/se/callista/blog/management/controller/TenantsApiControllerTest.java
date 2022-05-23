@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import se.callista.blog.management.service.TenantManagementService;
 
+import java.util.UUID;
+
 @WebMvcTest(TenantsApiController.class)
 class TenantsApiControllerTest {
 
@@ -28,6 +30,6 @@ class TenantsApiControllerTest {
         mvc.perform(MockMvcRequestBuilders.post("/tenants?tenantId=tenant1&db=tenant1_db&password=secret"))
                 .andExpect(status().isOk());
 
-        verify(tenantManagementService).createTenant("tenant1", "tenant1_db", "secret");
+        verify(tenantManagementService).createTenant(UUID.randomUUID());
     }
 }

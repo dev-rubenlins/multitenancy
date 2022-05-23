@@ -11,7 +11,7 @@ spring:
 multitenancy:
   master:
     datasource:
-      url: jdbc:postgresql://localhost:5432/master
+      url: jdbc:postgresql://localhost:5432/rh_plus
       username: postgres
       password: secret
     liquibase:

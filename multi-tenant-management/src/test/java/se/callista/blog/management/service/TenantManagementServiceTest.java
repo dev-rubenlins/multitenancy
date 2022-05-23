@@ -4,6 +4,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.UUID;
 import javax.sql.DataSource;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,9 @@ class TenantManagementServiceTest {
     @Test
     @ExpectedDataSet({"service/tenants.yml"})
     void createTenant1() throws SQLException {
+        UUID tenantId = UUID.randomUUID();
         String dbHost = System.getProperty("DB_HOST");
-        tenantManagementService.createTenant("tenant1", "tenant1_db", "secret");
+        tenantManagementService.createTenant(tenantId);
         Connection connection = DriverManager.getConnection("jdbc:postgresql://" + dbHost + "/tenant1_db", "tenant1_db", "secret");
         DataSource tenantDataSource = new SingleConnectionDataSource(connection, false);
         JdbcTemplate jdbcTemplate = new JdbcTemplate(tenantDataSource);

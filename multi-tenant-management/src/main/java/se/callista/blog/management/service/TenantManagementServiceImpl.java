@@ -3,10 +3,12 @@ package se.callista.blog.management.service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.UUID;
 import javax.sql.DataSource;
 import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
@@ -28,6 +30,8 @@ public class TenantManagementServiceImpl implements TenantManagementService {
 
     private static final String VALID_DATABASE_NAME_REGEXP = "[A-Za-z0-9_]*";
 
+    private static final String DATABASE_NAME_PREFIX = "RH_FOCUS_";
+
     private final EncryptionService encryptionService;
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
@@ -44,7 +48,12 @@ public class TenantManagementServiceImpl implements TenantManagementService {
     private String salt;
 
     @Override
-    public void createTenant(String tenantId, String db, String password) {
+    public void createTenant(UUID tenantId) {
+
+        String strTenantId = tenantId.toString();
+        String db = DATABASE_NAME_PREFIX + strTenantId.replaceAll("-","_");
+        String password = RandomStringUtils.random(16,0,20,true,true,
+                "qw32rfHIJk9iQ8Ud7h0X".toCharArray());
 
         // Verify db string to prevent SQL injection
         if (!db.matches(VALID_DATABASE_NAME_REGEXP)) {
@@ -65,7 +74,7 @@ public class TenantManagementServiceImpl implements TenantManagementService {
             throw new TenantCreationException("Error when populating db: ", e);
         }
         Tenant tenant = Tenant.builder()
-                .tenantId(tenantId)
+                .tenantId(tenantId.toString())
                 .db(db)
                 .password(encryptedPassword)
                 .build();

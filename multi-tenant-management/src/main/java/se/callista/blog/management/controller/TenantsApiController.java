@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se.callista.blog.management.service.TenantManagementService;
 
+import javax.validation.constraints.NotBlank;
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/")
 public class TenantsApiController {
@@ -17,8 +20,9 @@ public class TenantsApiController {
     private TenantManagementService tenantManagementService;
 
     @PostMapping("/tenants")
-    public ResponseEntity<Void> createTenant(@RequestParam String tenantId, @RequestParam String db, @RequestParam String password) {
-        tenantManagementService.createTenant(tenantId, db, password);
+    public ResponseEntity<Void> createTenant(@RequestParam @NotBlank String tenantId) {
+        UUID tenantUUID = UUID.fromString(tenantId);
+        tenantManagementService.createTenant(tenantUUID);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

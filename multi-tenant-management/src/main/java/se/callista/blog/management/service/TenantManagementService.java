@@ -1,7 +1,9 @@
 package se.callista.blog.management.service;
 
+import java.util.UUID;
+
 public interface TenantManagementService {
     
-    void createTenant(String tenantId, String db, String password);
+    void createTenant(UUID tenantId);
 
 }
