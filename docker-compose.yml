@@ -1,16 +1,25 @@
-version: '2.1'
+version: "3.7"
 services:
   postgres:
-    image: postgres
+    image:  postgres:14.3-alpine
+    container_name: rhplus_postgres
     ports:
-      - "5432:5432"
-    restart: always
+      - 5432:5432
+    volumes:
+      - $POSTGRES_VOLUME:/var/lib/postgresql
+      - $POSTGRES_INIT_SQL:/opt/init.sql
+      - $POSTGRES_INIT_SH:/docker-entrypoint-initdb.d/init.sh
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: rh_focus
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d master"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - RHPLUS_PASSWORD=$RHPLUS_PASSWORD
+  multitenant-management:
+    build: multi-tenant-management/
+    container_name: multitenant-management
+    ports:
+      - 8088:8088
+    environment:
+      - RHPLUS_PASSWORD=$RHPLUS_PASSWORD
+      - POSTGRES_HOST=postgres
+    depends_on:
+      - postgres
