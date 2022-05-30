@@ -9,13 +9,13 @@ databaseChangeLog:
         columns:
         - column:
             name: tenant_id
-            type: VARCHAR(30)
+            type: VARCHAR(50)
             constraints:
               primaryKey: true
               primaryKeyName: tenant_pkey
         - column:
             name: db
-            type: VARCHAR(30)
+            type: VARCHAR(50)
         - column:
             name: password
-            type: VARCHAR(30)
+            type: VARCHAR(50)

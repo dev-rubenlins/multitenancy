@@ -9,6 +9,8 @@ import liquibase.exception.LiquibaseException;
 import liquibase.integration.spring.SpringLiquibase;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
@@ -28,9 +30,11 @@ import se.callista.blog.management.util.EncryptionService;
 @EnableConfigurationProperties(LiquibaseProperties.class)
 public class TenantManagementServiceImpl implements TenantManagementService {
 
+    Logger logger = LoggerFactory.getLogger(TenantManagementServiceImpl.class);
+
     private static final String VALID_DATABASE_NAME_REGEXP = "[A-Za-z0-9_]*";
 
-    private static final String DATABASE_NAME_PREFIX = "RH_FOCUS_";
+    private static final String DATABASE_NAME_PREFIX = "rh_focus_";
 
     private final EncryptionService encryptionService;
     private final DataSource dataSource;
@@ -82,8 +86,10 @@ public class TenantManagementServiceImpl implements TenantManagementService {
     }
 
     private void createDatabase(String db, String password) {
+        System.out.println("db="+db);
+        System.out.println("password="+password);
         jdbcTemplate.execute((StatementCallback<Boolean>) stmt -> stmt.execute("CREATE DATABASE " + db));
-        jdbcTemplate.execute((StatementCallback<Boolean>) stmt -> stmt.execute("CREATE USER " + db + " WITH ENCRYPTED PASSWORD '" + password + "'"));
+        jdbcTemplate.execute((StatementCallback<Boolean>) stmt -> stmt.execute("CREATE USER " + db + " WITH PASSWORD '" + password + "'"));
         jdbcTemplate.execute((StatementCallback<Boolean>) stmt -> stmt.execute("GRANT ALL PRIVILEGES ON DATABASE " + db + " TO " + db));
     }
 

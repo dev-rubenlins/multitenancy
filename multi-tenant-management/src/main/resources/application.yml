@@ -11,14 +11,14 @@ spring:
 multitenancy:
   master:
     datasource:
-      url: jdbc:postgresql://localhost:5432/rh_plus
-      username: postgres
-      password: secret
+      url: jdbc:postgresql://${POSTGRES_HOST}:5432/rhplus
+      username: rhplus
+      password: ${RHPLUS_PASSWORD}
     liquibase:
       changeLog: classpath:db/changelog/db.changelog-master.yaml
   tenant:
     datasource:
-      url-prefix: jdbc:postgresql://localhost:5432/
+      url-prefix: jdbc:postgresql://${POSTGRES_HOST}:5432/
     liquibase:
       changeLog: classpath:db/changelog/db.changelog-tenant.yaml
 encryption:

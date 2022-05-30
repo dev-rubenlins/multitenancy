@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.6</version>
+        <version>2.7.0</version>
         <relativePath/>
     </parent>
     <groupId>se.callista.blog</groupId>
@@ -15,7 +15,7 @@
     <description>Sample Multi-tenant Management App</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>

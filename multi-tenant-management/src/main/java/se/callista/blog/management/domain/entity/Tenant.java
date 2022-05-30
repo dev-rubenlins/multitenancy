@@ -17,15 +17,15 @@ import lombok.NoArgsConstructor;
 public class Tenant {
 
     @Id
-    @Size(max = 30)
+    @Size(max = 50)
     @Column(name = "tenant_id")
     private String tenantId;
 
-    @Size(max = 30)
+    @Size(max = 50)
     @Column(name = "db")
     private String db;
 
-    @Size(max = 30)
+    @Size(max = 50)
     @Column(name = "password")
     private String password;
 
