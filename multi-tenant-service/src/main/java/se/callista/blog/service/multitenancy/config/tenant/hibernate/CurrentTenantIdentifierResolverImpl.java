@@ -10,7 +10,7 @@ public class CurrentTenantIdentifierResolverImpl implements CurrentTenantIdentif
 
     @Override
     public String resolveCurrentTenantIdentifier() {
-        String tenantId = TenantContext.getTenantId();
+        String tenantId = TenantContext.getTenantId().toString();
         if (!ObjectUtils.isEmpty(tenantId)) {
             return tenantId;
         } else {

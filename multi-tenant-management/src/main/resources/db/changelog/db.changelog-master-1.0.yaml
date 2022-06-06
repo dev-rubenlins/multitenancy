@@ -2,7 +2,7 @@ databaseChangeLog:
 
 - changeSet:
     id: tenant-1
-    author: bjobes
+    author: ruben
     changes:
     - createTable:
         tableName: tenant

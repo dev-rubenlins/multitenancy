@@ -86,8 +86,6 @@ public class TenantManagementServiceImpl implements TenantManagementService {
     }
 
     private void createDatabase(String db, String password) {
-        System.out.println("db="+db);
-        System.out.println("password="+password);
         jdbcTemplate.execute((StatementCallback<Boolean>) stmt -> stmt.execute("CREATE DATABASE " + db));
         jdbcTemplate.execute((StatementCallback<Boolean>) stmt -> stmt.execute("CREATE USER " + db + " WITH PASSWORD '" + password + "'"));
         jdbcTemplate.execute((StatementCallback<Boolean>) stmt -> stmt.execute("GRANT ALL PRIVILEGES ON DATABASE " + db + " TO " + db));
